@@ -15,7 +15,41 @@
 		String user_email = session.getAttribute("user_email").toString();
 //this will display the username that is stored in the session. %>
 	Welcome <%=session.getAttribute("user")%>  
-	<a href='logout.jsp'>Log out</a>
+	<a href='logout.jsp'>Log out</a> <br/>
+	Today's date: <%= (new java.util.Date()).toLocaleString()%>
+	<h2>List item for sale</h2>
+	<br>
+		<form method="post" action="newItemSale.jsp">
+		<table>
+		<tr>    
+		<td>Item Name</td><td><input type="text" name="item_name"></td>
+		</tr>
+		<tr>
+		<td>Item Type</td><td><select name="item_type">
+    		<option value="shirts">Shirts</option>
+    		<option value="pants">Pants</option>
+    		<option value="shoes">Shoes</option>
+  		</select></td>
+		</tr>
+		<tr>
+		<td>Closing Date</td><td><input type="date" name="closing_date"></td>
+		</tr>
+		<tr>
+		<td>Closing Time</td><td><input type="time" name="closing_time"></td>
+		</tr>
+		<tr>
+		<td>Starting Price</td><td><input type="text" name="initial_price"></td>
+		</tr>
+		<tr>
+		<td>Increment</td><td><input type="text" name="increment"></td>
+		</tr>
+		<tr>
+		<td>Minimum Price (reserve)</td><td><input type="text" name="min_price"></td>
+		</tr>
+		</table>
+		<input type="submit" value="Add me!">
+		</form>
+	<br>
 	<form method="post" action="setAlerts.jsp">
 		<label for="categories">Add categories to set an alert for when they're available:</label>
 		   <input type="checkbox" id="cat1" name="Category1" value="Shirts">
