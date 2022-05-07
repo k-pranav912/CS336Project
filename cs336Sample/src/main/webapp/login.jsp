@@ -18,16 +18,5 @@
        <input type="submit" value="Submit"/>
      </form>
      
-     <%
-   		//Get the database connection
-   		ApplicationDB db = new ApplicationDB();	
-   		Connection con = db.getConnection();
-
-   		//Create a SQL statement
-   		Statement stmt = con.createStatement();
-   		String str = "UPDATE auction_posts"
-   				+ " SET buyer_email = (SELECT )";
-   		con.close();
-     %>
    </body>
 </html>

@@ -14,6 +14,19 @@
 		
 		String user_email = session.getAttribute("user_email").toString();
 //this will display the username that is stored in the session. %>
+
+ <%
+ 		/*
+   		//Get the database connection
+   		ApplicationDB db3 = new ApplicationDB();	
+   		Connection con3 = db3.getConnection();
+
+   		//Create a SQL statement
+   		String str3 = "UPDATE auction_posts,"
+   			+ " (SELECT aID, email, MAX(curr_bid) FROM bid GROUP BY aID)"
+   		con3.createStatement().executeUpdate(str3);
+   		con3.close(); */
+     %> 
 	Welcome <%=session.getAttribute("user")%>  
 	<a href='logout.jsp'>Log out</a> <br/>
 	Today's date: <%= (new java.util.Date()).toLocaleString()%>

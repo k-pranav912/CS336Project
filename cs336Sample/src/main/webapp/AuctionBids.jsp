@@ -39,7 +39,7 @@
 			
 				String email = result.getString("email");
 				int bidID = result.getInt("bidID");
-				int maxBid = result.getInt("max_bid");
+				int maxBid = result.getInt("curr_bid");
 				
 				%>
 				
