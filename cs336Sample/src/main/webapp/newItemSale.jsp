@@ -22,8 +22,8 @@
 		Statement stmt = con.createStatement();
 
 		//Get parameters from the HTML form at the index.jsp
-		String itemName = request.getParameter("item_name");
-		String itemType = request.getParameter("item_type");
+		String item_name = request.getParameter("item_name");
+		String item_type = request.getParameter("item_type");
 		String closing_time = request.getParameter("closing_time");
 		// getDate
 		LocalDate closing_date = LocalDate.parse(request.getParameter("closing_date"));
@@ -31,16 +31,20 @@
 		
 		double initial_price = Double.valueOf(request.getParameter("initial_price"));
 		double increment = Double.valueOf(request.getParameter("increment"));
-		double reserve_price = Double.valueOf(request.getParameter("min_price"));
+		String reserve_price = request.getParameter("min_price");
+		double rp = -1;
+		if (!reserve_price.isEmpty()) {
+			rp = Double.valueOf(reserve_price);
+		}
 		String user_email = session.getAttribute("user_email").toString();
 		String str = "SELECT MAX(aID) as max FROM auction_posts";
-		//Run the query against the database.
+		//Run the query to find next aID
 		ResultSet result = stmt.executeQuery(str);
 		result.first();
 		int aID = result.getInt("max") + 1;
 		//Make an insert statement for the auction_posts table:
-		String insert = "INSERT INTO auction_posts(aID,close_time,close_date,increment,initial_price,current_price,seller_email)"
-				+ "VALUES (?,?,?,?,?,?,?)";
+		String insert = "INSERT INTO auction_posts(aID,close_time,close_date,increment,initial_price,current_price,reserve_price,seller_email)"
+				+ "VALUES (?,?,?,?,?,?,?,?)";
 		//Create a Prepared SQL statement allowing you to introduce the parameters of the query
 		PreparedStatement ps = con.prepareStatement(insert);
 
@@ -51,35 +55,32 @@
 		ps.setDouble(4,increment);
 		ps.setDouble(5,initial_price);
 		ps.setDouble(6,initial_price);
-		ps.setString(7,user_email);
+		if (rp != -1) {
+			ps.setDouble(7, rp);
+		} else {
+			ps.setNull(7, Types.DOUBLE);
+		}
+		ps.setString(8,user_email);
 		
 		ps.executeUpdate();
 
 		
-		//Make an insert statement for the Sells table:
-		/* insert = "INSERT INTO beers(name)"
-				+ "VALUES (?)";
-		//Create a Prepared SQL statement allowing you to introduce the parameters of the query
-		ps = con.prepareStatement(insert);
-		//Add parameters of the query. Start with 1, the 0-parameter is the INSERT statement itself		
-		ps.setString(1, newBeer);
-		ps.executeUpdate();
 
 		
-		//Make an insert statement for the Sells table:
-		insert = "INSERT INTO sells(bar, beer, price)"
-				+ "VALUES (?, ?, ?)";
+		//Make an insert statement for the item table:
+		insert = "INSERT INTO item(itemID, aID, item_name, item_type)"
+				+ "VALUES (?, ?, ?, ?)";
 		//Create a Prepared SQL statement allowing you to introduce the parameters of the query
 		ps = con.prepareStatement(insert);
 
 		//Add parameters of the query. Start with 1, the 0-parameter is the INSERT statement itself
-		ps.setString(1, newBar);
-		ps.setString(2, newBeer);
-		ps.setFloat(3, price);
+		ps.setInt(1, aID);
+		ps.setInt(2, aID);
+		ps.setString(3, item_name);
+		ps.setString(4, item_type);
 		//Run the query against the DB
 		ps.executeUpdate();
 		//Run the query against the DB
-		*/
 		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
 		con.close();
 		out.print("insert succeeded");

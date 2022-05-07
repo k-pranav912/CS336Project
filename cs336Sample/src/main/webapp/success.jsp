@@ -44,7 +44,7 @@
 		<td>Increment</td><td><input type="text" name="increment"></td>
 		</tr>
 		<tr>
-		<td>Minimum Price (reserve)</td><td><input type="text" name="min_price"></td>
+		<td>Reserve Price (optional)</td><td><input type="text" name="min_price"></td>
 		</tr>
 		</table>
 		<input type="submit" value="Add me!">
