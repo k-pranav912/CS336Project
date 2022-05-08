@@ -45,7 +45,7 @@
 		String update = "UPDATE auction_posts SET current_price = " + price + ",buyer_email = '"
 			    + user_email + "' WHERE aID = " + aID;
 		con.createStatement().executeUpdate(update);
-		out.print("Price being updated to auction_posts: $" +price+"\n");
+		//out.print("Price being updated to auction_posts: $" +price+"\n");
 
 		Statement stmt2 = con.createStatement();
 		String select = "SELECT bidID FROM bid WHERE aID = " + aID + " AND is_autobid = 1";
@@ -63,7 +63,7 @@
 		ResultSet maxResult = getMax.executeQuery(getMaxQuery);
 		maxResult.first();
 		double maximum = maxResult.getDouble("current_price");
-		out.print("Maximum Bid price is: $" +maximum +"\n");
+		//out.print("Maximum Bid price is: $" +maximum +"\n");
 		int bidID = 0;
 		double current = 0.0;
 		double increment = 0.0;
@@ -74,22 +74,22 @@
 		while (bidID_list.size() > count)
 		{
 			bidID = bidID_list.get(count);
-			out.print("Current bidID being modified: " +bidID);
+			//out.print("Current bidID being modified: " +bidID);
 			Statement stmt4 = con.createStatement();
 			String select2 = "SELECT current_bid,increment,maximum_bid FROM bid WHERE bidID = " + bidID+"\n";
 			ResultSet result2 = stmt4.executeQuery(select2);
 			result2.first();
 			current = result2.getFloat("current_bid");
-			out.print("Current bid price: $" +current+"\n");
+			//out.print("Current bid price: $" +current+"\n");
 			increment = result2.getFloat("increment");
-			out.print("Increment: $" + increment+"\n");
+			//out.print("Increment: $" + increment+"\n");
 			maximum_bid = result2.getFloat("maximum_bid");
-			out.print("Maximum bid for this autobid: $" + maximum_bid+"\n");
+			//out.print("Maximum bid for this autobid: $" + maximum_bid+"\n");
 			while(current < maximum && (current + increment) <= maximum_bid)
 			{
 				current = current + increment;
 			}
-			out.print("New Current: $" + current+"\n");
+			//out.print("New Current: $" + current+"\n");
 			autobidUpdate = "UPDATE bid SET current_bid = " + current + "WHERE bidID = " + bidID;
 			con.createStatement().executeUpdate(autobidUpdate);	
 			count++;
