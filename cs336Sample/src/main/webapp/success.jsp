@@ -124,6 +124,29 @@
 			%>
 		</table>
 	<%
+	
+	
+	Statement alertStatement = con.createStatement();	
+	String manual_alert = "SELECT B.email, A.aID FROM auction_posts A, bid B WHERE A.aID = B.aID AND B.current_bid < A.current_price AND B.is_autobid = 0";	
+	ResultSet alertResult = alertStatement.executeQuery(manual_alert);	
+	while (alertResult.next())	
+	{	
+		if(alertResult.getString("email").equals(user_email))	
+		out.print("Someone has outbid you on auction ID: " + alertResult.getInt("aID") + "   ");	
+	}	
+
+	Statement autoAlertStatement = con.createStatement();	
+	String auto_alert = "SELECT B.email, A.aID FROM auction_posts A, bid B WHERE A.aID = B.aID AND B.current_bid < A.current_price AND B.is_autobid = 1";	
+	ResultSet autoAlertResult = autoAlertStatement.executeQuery(auto_alert);	
+	while (autoAlertResult.next())	
+	{	
+		if(autoAlertResult.getString("email").equals(user_email))	
+		out.print("Someone has surpassed your autobid maximum on auction ID: " + autoAlertResult.getInt("aID"));	
+	}	
+
+	//close the connection.	
+	db.closeConnection(con);			
+
 	ApplicationDB db2 = new ApplicationDB();	
   	Connection con2 = db2.getConnection();		
   	Statement stmt2 = con2.createStatement();
@@ -131,7 +154,8 @@
   	String str2 = "SELECT * FROM auction_posts A, item I"
   	  		+ " WHERE if(A.close_date = CURDATE(), A.close_time < CURTIME(), A.close_date < CURDATE())"
   	  		+ " AND A.buyer_email ='" + user_email + "'"
-  	  		+ " AND A.aID = I.aID";
+  	  		+ " AND A.aID = I.aID"	
+  	  	  	+ " AND A.current_price >= A.reserve_price";
   	ResultSet result2 = stmt2.executeQuery(str2);
   	
   	%>
