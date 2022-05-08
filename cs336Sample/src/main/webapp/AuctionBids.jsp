@@ -6,14 +6,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Bid History for Auction <%= request.getParameter("aID") %></title>
+<title>Bid for <%= request.getParameter("name") %></title>
 </head>
 <body>
-<h1>Bid History for Auction <%= request.getParameter("aID") %></h1>
+<h1><%= request.getParameter("name") %></h1>
 <table>
 		<tr>    
 			<td>Bidder Email</td>
-			<td>Bidder's Max Bid</td>
+			<td>Bidder's Current Bid</td>
 		</tr>
 <% try {
 	
@@ -35,17 +35,22 @@
 			//Run the query against the database.
 			ResultSet result = stmt.executeQuery(str);
 			
+			
+			
 			while (result.next()) {
 			
+				
 				String email = result.getString("email");
 				int bidID = result.getInt("bidID");
-				int maxBid = result.getInt("curr_bid");
+
+				int currentBid = result.getInt("current_bid");
+
 				
 				%>
 				
 				<tr>
 					<td><%= email %></td>
-					<td><%= maxBid %></td>
+					<td><%= currentBid %></td>
 				</tr>
 				
 				<% 
@@ -59,6 +64,39 @@
 			db.closeConnection(con);
 			%>
 		</table>
+		
+		<h2> Bid for <%= request.getParameter("name") %></h2>
+	<br>
+		<form method="get" action="bidInserted.jsp">
+			<table>
+				<tr>    
+					<td>Bid</td><td><input type="text" name="bid_price"></td>
+				</tr>
+				<tr>    
+					<td>aID</td><td><input type="text" name="aID" value=<%= request.getParameter("aID") %>></td>
+				</tr>
+			</table>
+			<input type="submit" value="Bid!">
+		</form>
+	<br>
+		<form method="get" action="autoBidInserted.jsp">
+			<table>
+				<tr>    
+					<td>Starting Bid</td><td><input type="text" name="autobid_start"></td>
+				</tr>
+				<tr>    
+					<td>Maximum Bid</td><td><input type="text" name="autobid_max"></td>
+				</tr>
+				<tr>    
+					<td>Auto-Increment</td><td><input type="text" name="autobid_increment"></td>
+				</tr>
+				<tr>    
+					<td>aID</td><td><input type="text" name="aID" value=<%= request.getParameter("aID") %>></td>
+				</tr>
+			</table>
+			<input type="submit" value="Auto-Bid!">
+		</form>
+		
 		<%} catch (Exception e) {
 			out.print(e);
 		}%>
