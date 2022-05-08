@@ -12,7 +12,7 @@
 <a href="#deadlink.jsp">Back to user page</a>
 <% try {
 	String email = "";
-	//email = session.getAttribute("user_email").toString();
+	email = session.getAttribute("user_email").toString();
 	String question = request.getParameter("question");
 	int id = 0;
 	
@@ -34,7 +34,7 @@
 	String str = "insert into question values(" + id + ",'" + question + "',NULL,'" + email + "')";
 	//out.print(str);
 	
-	//int output = stmt.executeUpdate(str);
+	int output = stmt.executeUpdate(str);
 	%>
 	<br>Question Posted.
 <%} catch (Exception e) {
