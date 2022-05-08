@@ -13,7 +13,7 @@
 	<% } else { 
 		
 		String user_email = session.getAttribute("user_email").toString();
-//this will display the username that is stored in the session. %>
+//this will display the username that is stored in the session.dda %>
 
 	Welcome <%=session.getAttribute("user")%>  
 	<a href='logout.jsp'>Log out</a> <br/>
