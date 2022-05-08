@@ -125,7 +125,7 @@
 			//parse out the results
 			for (int i = 0; i < item_list.size(); i++) { %>
 				<tr>
-					<td><a href=<%= "/cs336Sample/AuctionBids.jsp?aID=" + item_list.get(i).aID + "&name=" +  item_list.get(i).name %>" >
+					<td><a href="/cs336Sample/AuctionBids.jsp?aID=<%=  item_list.get(i).aID %>">
 					<%= item_list.get(i).aID %></a>
 					</td>    
 					<td><%= item_list.get(i).name %></td>
