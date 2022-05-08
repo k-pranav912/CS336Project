@@ -109,7 +109,7 @@
 			query = "update auction_posts set buyer_email=" + buyer_email + ", current_price=" + current_bid + " where aID=" + auction_id;
 
 			int output = stmt2.executeUpdate(query);
-			out.print("aaaaa");
+
 			helper_rs.close();	
 		}
 		
